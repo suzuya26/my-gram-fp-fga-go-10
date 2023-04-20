@@ -12,23 +12,23 @@ import (
 	"gorm.io/gorm"
 )
 
-func CreatePhoto(c *gin.Context) {
+func CreateSosmed(c *gin.Context) {
 	db := database.GetDB()
 	contentType := helper.GetContentType(c)
 	userData := c.MustGet("userData").(jwt.MapClaims)
 
-	photo := model.Photo{}
+	sosmed := model.SosialMedia{}
 	userID := uint(userData["id"].(float64))
 
 	if contentType == appJSON {
-		c.ShouldBindJSON(&photo)
+		c.ShouldBindJSON(&sosmed)
 	} else {
-		c.ShouldBind(&photo)
+		c.ShouldBind(&sosmed)
 	}
 
-	photo.UserId = userID
+	sosmed.UserId = userID
 
-	err := db.Debug().Create(&photo).Error
+	err := db.Debug().Create(&sosmed).Error
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"err":     "bad request",
@@ -38,32 +38,31 @@ func CreatePhoto(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusCreated, photo)
+	c.JSON(http.StatusCreated, sosmed)
 }
 
-func UpdatePhoto(c *gin.Context) {
+func UpdateSosmed(c *gin.Context) {
 	db := database.GetDB()
 	contentType := helper.GetContentType(c)
 	userData := c.MustGet("userData").(jwt.MapClaims)
 
-	photoId, _ := strconv.Atoi(c.Param("photoId"))
+	sosmedId, _ := strconv.Atoi(c.Param("sosmedId"))
 
-	photo := model.Photo{}
+	sosmed := model.SosialMedia{}
 	userID := uint(userData["id"].(float64))
 
 	if contentType == appJSON {
-		c.ShouldBindJSON(&photo)
+		c.ShouldBindJSON(&sosmed)
 	} else {
-		c.ShouldBind(&photo)
+		c.ShouldBind(&sosmed)
 	}
 
-	photo.UserId = userID
-	photo.Id = uint(photoId)
+	sosmed.UserId = userID
+	sosmed.Id = uint(sosmedId)
 
-	err := db.Model(&photo).Where("id = ?", photoId).Updates(model.Photo{
-		Title:    photo.Title,
-		Caption:  photo.Caption,
-		PhotoUrl: photo.PhotoUrl,
+	err := db.Model(&sosmed).Where("id = ?", sosmedId).Updates(model.SosialMedia{
+		Name:           sosmed.Name,
+		SocialMediaUrl: sosmed.SocialMediaUrl,
 	}).Error
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -74,24 +73,24 @@ func UpdatePhoto(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, photo)
+	c.JSON(http.StatusOK, sosmed)
 }
 
-func GetPhoto(c *gin.Context) {
+func GetSosmed(c *gin.Context) {
 	db := database.GetDB()
 	userData := c.MustGet("userData").(jwt.MapClaims)
 
-	photoId, _ := strconv.Atoi(c.Param("photoId"))
+	sosmedId, _ := strconv.Atoi(c.Param("sosmedId"))
 
-	photo := model.Photo{}
+	sosmed := model.SosialMedia{}
 	userID := uint(userData["id"].(float64))
 
-	photo.UserId = userID
-	photo.Id = uint(photoId)
+	sosmed.UserId = userID
+	sosmed.Id = uint(sosmedId)
 
 	err := db.Preload("User", func(db_s *gorm.DB) *gorm.DB {
 		return db_s.Select("id, user_name, age")
-	}).First(&photo, photoId).Error
+	}).First(&sosmed, sosmedId).Error
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"err":     "bad request",
@@ -100,16 +99,16 @@ func GetPhoto(c *gin.Context) {
 
 		return
 	}
-	c.JSON(http.StatusOK, photo)
+	c.JSON(http.StatusOK, sosmed)
 }
 
-func GetAllPhoto(c *gin.Context) {
+func GetAllSosmed(c *gin.Context) {
 	db := database.GetDB()
-	photo := []model.Photo{}
+	sosmed := []model.SosialMedia{}
 
 	err := db.Preload("User", func(db_s *gorm.DB) *gorm.DB {
 		return db_s.Select("id, user_name, age")
-	}).Find(&photo).Error
+	}).Find(&sosmed).Error
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"err":     "bad request",
@@ -118,22 +117,22 @@ func GetAllPhoto(c *gin.Context) {
 
 		return
 	}
-	c.JSON(http.StatusOK, photo)
+	c.JSON(http.StatusOK, sosmed)
 }
 
-func DeleteProduct(c *gin.Context) {
+func DeleteSosmed(c *gin.Context) {
 	db := database.GetDB()
 	userData := c.MustGet("userData").(jwt.MapClaims)
 
-	photoId, _ := strconv.Atoi(c.Param("photoId"))
+	sosmedId, _ := strconv.Atoi(c.Param("sosmedId"))
 	userID := uint(userData["id"].(float64))
 
-	photo := model.Photo{}
+	sosmed := model.SosialMedia{}
 
-	photo.UserId = userID
-	photo.Id = uint(photoId)
+	sosmed.UserId = userID
+	sosmed.Id = uint(sosmedId)
 
-	err := db.Delete(&photo, photoId).Error
+	err := db.Delete(&sosmed, sosmedId).Error
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"err":     "bad request",

@@ -19,11 +19,21 @@ func StartApp() *gin.Engine {
 	photoRouter := r.Group("/photos")
 	{
 		photoRouter.Use(middleware.Authentication())
-		photoRouter.POST("/", controller.Createphoto)
+		photoRouter.POST("/", controller.CreatePhoto)
 		photoRouter.GET("/:photoId", controller.GetPhoto)
 		photoRouter.PUT("/:photoId", controller.UpdatePhoto)
 		photoRouter.DELETE("/:photoId", controller.DeleteProduct)
 		photoRouter.GET("/", controller.GetAllPhoto)
+	}
+
+	sosmedRouter := r.Group("/sosmed")
+	{
+		sosmedRouter.Use(middleware.Authentication())
+		sosmedRouter.POST("/", controller.CreateSosmed)
+		sosmedRouter.GET("/:sosmedId", controller.GetSosmed)
+		sosmedRouter.PUT("/:sosmedId", controller.UpdateSosmed)
+		sosmedRouter.DELETE("/:sosmedId", controller.DeleteSosmed)
+		sosmedRouter.GET("/", controller.GetAllSosmed)
 	}
 
 	return r
