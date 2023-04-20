@@ -6,7 +6,7 @@ import (
 )
 
 type Comment struct {
-	Id      int `gorm:"primaryKey;type:serial" json:"id"`
+	Id      uint `gorm:"primaryKey" json:"id"`
 	UserId  uint
 	PhotoId uint
 	Message string `gorm:"not null" json:"message" form:"message" valid:"required~Pesan Komentar tidak boleh kosong"`

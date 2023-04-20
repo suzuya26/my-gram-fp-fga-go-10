@@ -8,10 +8,11 @@ import (
 )
 
 type User struct {
-	Id       int    `gorm:"primaryKey;type:serial" json:"id"`
-	FullName string `gorm:"not null;uniqueIndex" json:"full_name" form:"full_name" valid:"required~Nama Lengkap Kamu Wajib diisi"`
+	Id       uint   `gorm:"primaryKey" json:"id"`
+	UserName string `gorm:"not null;uniqueIndex" json:"user_name" form:"user_name" valid:"required~Nama Pengguna Kamu Wajib diisi"`
 	Email    string `gorm:"not null;uniqueIndex" json:"email" form:"email" valid:"required~Email Kamu Wajib diisi"`
-	Password string `gorm:"not null" json:"password" form:"password" valid:"required~Password Wajib diisi"`
+	Password string `gorm:"not null" json:"password" form:"password" valid:"required~Password Wajib diisi,stringlength(6|999)~Password minimal 6 karakter"`
+	Age      int    `gorm:"not null" json:"age" form:"age" valid:"required~Umur Wajib diisi,range(9|150)~Umur minimal 9 tahun"`
 	GormModel
 	SosialMedia []SosialMedia `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;" json:"social_media"`
 	Photo       []Photo       `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;" json:"photos"`
