@@ -36,5 +36,15 @@ func StartApp() *gin.Engine {
 		sosmedRouter.GET("/", controller.GetAllSosmed)
 	}
 
+	commentRouter := r.Group("/comment")
+	{
+		commentRouter.Use(middleware.Authentication())
+		commentRouter.POST("/", controller.CreateComment)
+		commentRouter.GET("/:commentId", controller.GetComment)
+		commentRouter.PUT("/:commentId", controller.UpdateComment)
+		commentRouter.DELETE("/:commentId", controller.DeleteComment)
+		commentRouter.GET("/", controller.GetAllCcomment)
+	}
+
 	return r
 }
