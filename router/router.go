@@ -36,8 +36,8 @@ func StartApp() *gin.Engine {
 		photoRouter.Use(middleware.Authentication())
 		photoRouter.POST("/", controller.CreatePhoto)
 		photoRouter.GET("/:photoId", controller.GetPhoto)
-		photoRouter.PUT("/:photoId", controller.UpdatePhoto)
-		photoRouter.DELETE("/:photoId", controller.DeleteProduct)
+		photoRouter.PUT("/:photoId", middleware.PhotoOwnerAuth(), controller.UpdatePhoto)
+		photoRouter.DELETE("/:photoId", middleware.PhotoOwnerAuth(), controller.DeleteProduct)
 		photoRouter.GET("/", controller.GetAllPhoto)
 	}
 
@@ -46,8 +46,8 @@ func StartApp() *gin.Engine {
 		sosmedRouter.Use(middleware.Authentication())
 		sosmedRouter.POST("/", controller.CreateSosmed)
 		sosmedRouter.GET("/:sosmedId", controller.GetSosmed)
-		sosmedRouter.PUT("/:sosmedId", controller.UpdateSosmed)
-		sosmedRouter.DELETE("/:sosmedId", controller.DeleteSosmed)
+		sosmedRouter.PUT("/:sosmedId", middleware.SosmedOwnerAuth(), controller.UpdateSosmed)
+		sosmedRouter.DELETE("/:sosmedId", middleware.SosmedOwnerAuth(), controller.DeleteSosmed)
 		sosmedRouter.GET("/", controller.GetAllSosmed)
 	}
 
@@ -56,8 +56,8 @@ func StartApp() *gin.Engine {
 		commentRouter.Use(middleware.Authentication())
 		commentRouter.POST("/", controller.CreateComment)
 		commentRouter.GET("/:commentId", controller.GetComment)
-		commentRouter.PUT("/:commentId", controller.UpdateComment)
-		commentRouter.DELETE("/:commentId", controller.DeleteComment)
+		commentRouter.PUT("/:commentId", middleware.CommentOwnerAuth(), controller.UpdateComment)
+		commentRouter.DELETE("/:commentId", middleware.CommentOwnerAuth(), controller.DeleteComment)
 		commentRouter.GET("/", controller.GetAllCcomment)
 	}
 
