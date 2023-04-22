@@ -30,3 +30,15 @@ func (u *User) BeforeCreate(tx *gorm.DB) (err error) {
 
 	return
 }
+
+type UserReqEq struct {
+	UserName string `json:"user_name" example:"budianduk"`
+	Email    string `json:"email" example:"budi@sep.com"`
+	Password string `json:"password" example:"budi69"`
+	Age      int    `json:"age" example:"22"`
+}
+
+type LoginReq struct {
+	Email    string `json:"email" example:"budi@sep.com"`
+	Password string `json:"password" example:"budi69"`
+}

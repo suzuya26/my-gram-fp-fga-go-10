@@ -40,3 +40,13 @@ func (cm *Comment) BeforeCreate(tx *gorm.DB) (err error) {
 	}
 	return
 }
+
+type CommentReqEq struct {
+	PhotoId int    `json:"photo_id" example:"1"`
+	Message string `gorm:"not null" json:"message" example:"Ambis Sekali"`
+}
+
+type UpdateCommentReq struct {
+	PhotoId int    `json:"photo_id" example:"1"`
+	Message string `gorm:"not null" json:"message" example:"Ambis Sekali yah bund"`
+}

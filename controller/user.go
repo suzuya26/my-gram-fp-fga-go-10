@@ -13,6 +13,16 @@ var (
 	appJSON = "application/json"
 )
 
+// Register a new user
+// @Summary Register a new user
+// @Description Register a new user
+// @Tags Action For Users
+// @Accept json
+// @Produce json
+// @Param user body model.UserReqEq true "User object that needs to be registered"
+// @Success 201 {object} helper.UserRegisterResponse
+// @Failure 400 {object} helper.ErrorResponse
+// @Router /users/register [post]
 func UserRegister(c *gin.Context) {
 	db := database.GetDB()
 	contentType := helper.GetContentType(c)
@@ -35,12 +45,23 @@ func UserRegister(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusCreated, gin.H{
+		"message":   "Success Created User",
 		"id":        user.Id,
 		"email":     user.Email,
 		"full_name": user.UserName,
 	})
 }
 
+// UserLogin godoc
+// @Summary User login
+// @Description User login API
+// @Tags Action For Users
+// @Accept  json
+// @Produce  json
+// @Param user body model.LoginReq true "User login credentials"
+// @Success 200 {object} helper.UserLoginResponse
+// @Failure 401 {object} helper.ErrorResponse
+// @Router /users/login [post]
 func UserLogin(c *gin.Context) {
 	db := database.GetDB()
 	contentType := helper.GetContentType(c)
@@ -75,6 +96,7 @@ func UserLogin(c *gin.Context) {
 	token := helper.GenerateToken(user.Id, user.Email)
 
 	c.JSON(http.StatusOK, gin.H{
-		"token": token,
+		"message": "User successfully logged in",
+		"token":   token,
 	})
 }

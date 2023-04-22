@@ -23,3 +23,13 @@ func (sm *SosialMedia) BeforeCreate(tx *gorm.DB) (err error) {
 
 	return
 }
+
+type SosmedReq struct {
+	Name           string `json:"name" example:"Facebook"`
+	SocialMediaUrl string `json:"social_media_url" example:"facebook.com/budi_anduk"`
+}
+
+type UpdateSosmedReq struct {
+	Name           string `json:"name" example:"Facebook Lite"`
+	SocialMediaUrl string `json:"social_media_url" example:"facebook.com/budi_anduk_bunduk"`
+}

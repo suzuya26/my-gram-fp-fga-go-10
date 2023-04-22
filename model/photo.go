@@ -24,3 +24,15 @@ func (p *Photo) BeforeCreate(tx *gorm.DB) (err error) {
 
 	return
 }
+
+type PhotoReqEq struct {
+	Title    string `json:"title" example:"ch-09 10"`
+	Caption  string `json:"caption" example:"Salah satu SS challange-09"`
+	PhotoUrl string `json:"photo_url" example:"https://res.cloudinary.com/drakr4vtu/image/upload/v1681832825/FGA%20GO%2010/challange-09/image_2023-04-18_224711118_xcyqhz.png"`
+}
+
+type UpdatePhotoReq struct {
+	Title    string `json:"title" example:"ch-09 10-0"`
+	Caption  string `json:"caption" example:"Salah satu SrenShot challange-09"`
+	PhotoUrl string `json:"photo_url" example:"https://res.cloudinary.com/drakr4vtu/image/upload/v1681832825/FGA%20GO%2010/challange-09/image_2023-04-18_224711118_xcyqhz.png"`
+}

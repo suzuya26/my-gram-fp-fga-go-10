@@ -4,9 +4,24 @@ import (
 	"my-gram/controller"
 	"my-gram/middleware"
 
+	_ "my-gram/docs"
+
 	"github.com/gin-gonic/gin"
+	swaggerfiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
+// @title MyGram API
+// @version 1.0
+// @description this is sample services for MyGram
+// @termsOfService http://swagger.io/terms/
+// @host localholst:8080
+// @contact.name API Support
+// @contact.url http://www.swagger.io/support
+// @contact.email support@swagger.io
+// @license.name Apache 2.0
+// @license.url http://www.apache.org/licenses/LICENSE-2.0.html
+// @BasePath /
 func StartApp() *gin.Engine {
 	r := gin.Default()
 
@@ -46,5 +61,6 @@ func StartApp() *gin.Engine {
 		commentRouter.GET("/", controller.GetAllCcomment)
 	}
 
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 	return r
 }

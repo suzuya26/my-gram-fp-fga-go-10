@@ -1,0 +1,760 @@
+definitions:
+  helper.CreateSosmedResponse:
+    properties:
+      id:
+        type: integer
+      message:
+        type: string
+      social_media_url:
+        type: string
+      sosmed:
+        type: string
+      user_id:
+        type: integer
+    type: object
+  helper.ErrorResponse:
+    properties:
+      err:
+        type: string
+      message:
+        type: string
+    type: object
+  helper.SuccessResponse:
+    properties:
+      data: {}
+      message:
+        type: string
+      status:
+        type: integer
+    type: object
+  helper.UpdateSosmedResponse:
+    properties:
+      id:
+        type: integer
+      message:
+        type: string
+      social_media_url:
+        type: string
+      sosmed:
+        type: string
+      user_id:
+        type: integer
+    type: object
+  helper.UserLoginResponse:
+    properties:
+      message:
+        type: string
+      token:
+        type: string
+    type: object
+  helper.UserRegisterResponse:
+    properties:
+      email:
+        type: string
+      full_name:
+        type: string
+      id:
+        type: integer
+      message:
+        type: string
+    type: object
+  model.CommentReqEq:
+    properties:
+      message:
+        example: Ambis Sekali
+        type: string
+      photo_id:
+        example: 1
+        type: integer
+    type: object
+  model.LoginReq:
+    properties:
+      email:
+        example: budi@sep.com
+        type: string
+      password:
+        example: budi69
+        type: string
+    type: object
+  model.PhotoReqEq:
+    properties:
+      caption:
+        example: Salah satu SS challange-09
+        type: string
+      photo_url:
+        example: https://res.cloudinary.com/drakr4vtu/image/upload/v1681832825/FGA%20GO%2010/challange-09/image_2023-04-18_224711118_xcyqhz.png
+        type: string
+      title:
+        example: ch-09 10
+        type: string
+    type: object
+  model.SosmedReq:
+    properties:
+      name:
+        example: Facebook
+        type: string
+      social_media_url:
+        example: facebook.com/budi_anduk
+        type: string
+    type: object
+  model.UpdateCommentReq:
+    properties:
+      message:
+        example: Ambis Sekali yah bund
+        type: string
+      photo_id:
+        example: 1
+        type: integer
+    type: object
+  model.UpdatePhotoReq:
+    properties:
+      caption:
+        example: Salah satu SrenShot challange-09
+        type: string
+      photo_url:
+        example: https://res.cloudinary.com/drakr4vtu/image/upload/v1681832825/FGA%20GO%2010/challange-09/image_2023-04-18_224711118_xcyqhz.png
+        type: string
+      title:
+        example: ch-09 10-0
+        type: string
+    type: object
+  model.UpdateSosmedReq:
+    properties:
+      name:
+        example: Facebook Lite
+        type: string
+      social_media_url:
+        example: facebook.com/budi_anduk_bunduk
+        type: string
+    type: object
+  model.UserReqEq:
+    properties:
+      age:
+        example: 22
+        type: integer
+      email:
+        example: budi@sep.com
+        type: string
+      password:
+        example: budi69
+        type: string
+      user_name:
+        example: budianduk
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /comment:
+    get:
+      consumes:
+      - application/json
+      description: Get all comment
+      parameters:
+      - description: Authorization header in the format of 'Bearer {token}'
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/helper.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/helper.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/helper.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/helper.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Get all comment
+      tags:
+      - Comment
+    post:
+      consumes:
+      - application/json
+      description: Create a new Comment
+      parameters:
+      - description: Authorization header in the format of 'Bearer {token}'
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Comment data
+        in: body
+        name: comment
+        required: true
+        schema:
+          $ref: '#/definitions/model.CommentReqEq'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/helper.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/helper.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/helper.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Create a new Comment
+      tags:
+      - Comment
+  /comment/{commentId}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a comment by ID
+      parameters:
+      - description: Authorization header in the format of 'Bearer {token}'
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Comment ID
+        in: path
+        name: commentId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/helper.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/helper.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Delete a comment by ID
+      tags:
+      - Comment
+    get:
+      consumes:
+      - application/json
+      description: Get comment by ID
+      parameters:
+      - description: Authorization header in the format of 'Bearer {token}'
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Comment ID
+        in: path
+        name: commentId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/helper.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/helper.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/helper.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/helper.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Get comment by ID
+      tags:
+      - Comment
+    put:
+      consumes:
+      - application/json
+      description: Update existing comment
+      parameters:
+      - description: Authorization header in the format of 'Bearer {token}'
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: comment ID
+        in: path
+        name: commentId
+        required: true
+        type: integer
+      - description: Update Comment object
+        in: body
+        name: comment
+        required: true
+        schema:
+          $ref: '#/definitions/model.UpdateCommentReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/helper.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/helper.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/helper.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/helper.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Update existing comment
+      tags:
+      - Comment
+  /photo:
+    get:
+      consumes:
+      - application/json
+      description: Get all photo
+      parameters:
+      - description: Authorization header in the format of 'Bearer {token}'
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/helper.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/helper.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/helper.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/helper.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Get all photo
+      tags:
+      - Photo
+  /photo/{photoId}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a photo by ID
+      parameters:
+      - description: Authorization header in the format of 'Bearer {token}'
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Photo ID
+        in: path
+        name: photoId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/helper.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/helper.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Delete a photo by ID
+      tags:
+      - Photo
+    get:
+      consumes:
+      - application/json
+      description: Get photo by ID
+      parameters:
+      - description: Authorization header in the format of 'Bearer {token}'
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: photo ID
+        in: path
+        name: photoId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/helper.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/helper.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/helper.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/helper.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Get photo by ID
+      tags:
+      - Photo
+    put:
+      consumes:
+      - application/json
+      description: Update existing photo
+      parameters:
+      - description: Authorization header in the format of 'Bearer {token}'
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Photo ID
+        in: path
+        name: photoId
+        required: true
+        type: integer
+      - description: Update photo object
+        in: body
+        name: photo
+        required: true
+        schema:
+          $ref: '#/definitions/model.UpdatePhotoReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/helper.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/helper.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/helper.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/helper.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Update existing photo
+      tags:
+      - Photo
+  /photos:
+    post:
+      consumes:
+      - application/json
+      description: Create a new Photo
+      parameters:
+      - description: Authorization header in the format of 'Bearer {token}'
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Sosmed data
+        in: body
+        name: photo
+        required: true
+        schema:
+          $ref: '#/definitions/model.PhotoReqEq'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/helper.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/helper.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/helper.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Create a new Photo
+      tags:
+      - Photo
+  /sosmed:
+    get:
+      consumes:
+      - application/json
+      description: Get all Sosmed
+      parameters:
+      - description: Authorization header in the format of 'Bearer {token}'
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/helper.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/helper.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/helper.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Get all Sosmed
+      tags:
+      - Social Media
+    post:
+      consumes:
+      - application/json
+      description: Create a new social media account
+      parameters:
+      - description: Authorization header in the format of 'Bearer {token}'
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Sosmed data
+        in: body
+        name: sosmed
+        required: true
+        schema:
+          $ref: '#/definitions/model.SosmedReq'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/helper.CreateSosmedResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/helper.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Create a new social media account
+      tags:
+      - Social Media
+  /sosmed/{sosmedId}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a social media by ID
+      parameters:
+      - description: Authorization header in the format of 'Bearer {token}'
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Sosmed ID
+        in: path
+        name: sosmedId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/helper.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/helper.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Delete a social media by ID
+      tags:
+      - Social Media
+    get:
+      consumes:
+      - application/json
+      description: Get Sosmed by ID
+      parameters:
+      - description: Authorization header in the format of 'Bearer {token}'
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Sosmed ID
+        in: path
+        name: sosmedId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/helper.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/helper.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/helper.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/helper.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Get Sosmed by ID
+      tags:
+      - Social Media
+    put:
+      consumes:
+      - application/json
+      description: Update existing sosmed
+      parameters:
+      - description: Authorization header in the format of 'Bearer {token}'
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Sosmed ID
+        in: path
+        name: sosmedId
+        required: true
+        type: integer
+      - description: Update sosmed object
+        in: body
+        name: sosmed
+        required: true
+        schema:
+          $ref: '#/definitions/model.UpdateSosmedReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/helper.UpdateSosmedResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/helper.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/helper.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/helper.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Update existing sosmed
+      tags:
+      - Social Media
+  /users/login:
+    post:
+      consumes:
+      - application/json
+      description: User login API
+      parameters:
+      - description: User login credentials
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/model.LoginReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/helper.UserLoginResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/helper.ErrorResponse'
+      summary: User login
+      tags:
+      - Action For Users
+  /users/register:
+    post:
+      consumes:
+      - application/json
+      description: Register a new user
+      parameters:
+      - description: User object that needs to be registered
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/model.UserReqEq'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/helper.UserRegisterResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/helper.ErrorResponse'
+      summary: Register a new user
+      tags:
+      - Action For Users
+swagger: "2.0"

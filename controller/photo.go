@@ -12,6 +12,19 @@ import (
 	"gorm.io/gorm"
 )
 
+// CreatePhoto Create a new Photo
+// @Summary Create a new Photo
+// @Description Create a new Photo
+// @Tags Photo
+// @Accept  json
+// @Produce  json
+// @Security ApiKeyAuth
+// @Param Authorization header string true "Authorization header in the format of 'Bearer {token}'"
+// @Param photo body model.PhotoReqEq true "Sosmed data"
+// @Success 201 {object} helper.SuccessResponse
+// @Failure 400 {object} helper.ErrorResponse
+// @Failure 500 {object} helper.ErrorResponse
+// @Router /photos [post]
 func CreatePhoto(c *gin.Context) {
 	db := database.GetDB()
 	contentType := helper.GetContentType(c)
@@ -38,9 +51,25 @@ func CreatePhoto(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusCreated, photo)
+	// c.JSON(http.StatusCreated, photo)
+	helper.DataCreated(c, "Photo Successfully Created", photo)
 }
 
+// UpdatePhoto Update a photo info
+// @Summary Update existing photo
+// @Description Update existing photo
+// @Tags Photo
+// @Accept  json
+// @Produce  json
+// @Security ApiKeyAuth
+// @Param Authorization header string true "Authorization header in the format of 'Bearer {token}'"
+// @Param photoId path int true "Photo ID"
+// @Param photo body model.UpdatePhotoReq true "Update photo object"
+// @Success 200 {object} helper.SuccessResponse
+// @Failure 400 {object} helper.ErrorResponse
+// @Failure 401 {object} helper.ErrorResponse
+// @Failure 500 {object} helper.ErrorResponse
+// @Router /photo/{photoId} [put]
 func UpdatePhoto(c *gin.Context) {
 	db := database.GetDB()
 	contentType := helper.GetContentType(c)
@@ -74,9 +103,24 @@ func UpdatePhoto(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, photo)
+	// c.JSON(http.StatusOK, photo)
+	helper.OkWithMessage(c, "Photo Updated", photo)
 }
 
+// GetPhoto Get a photo info
+// @Summary Get photo by ID
+// @Description Get photo by ID
+// @Tags Photo
+// @Accept json
+// @Produce json
+// @Security ApiKeyAuth
+// @Param Authorization header string true "Authorization header in the format of 'Bearer {token}'"
+// @Param photoId path int true "photo ID"
+// @Success 200 {object} helper.SuccessResponse
+// @Failure 400 {object} helper.ErrorResponse
+// @Failure 401 {object} helper.ErrorResponse
+// @Failure 500 {object} helper.ErrorResponse
+// @Router /photo/{photoId} [get]
 func GetPhoto(c *gin.Context) {
 	db := database.GetDB()
 	userData := c.MustGet("userData").(jwt.MapClaims)
@@ -100,9 +144,23 @@ func GetPhoto(c *gin.Context) {
 
 		return
 	}
-	c.JSON(http.StatusOK, photo)
+	// c.JSON(http.StatusOK, photo)
+	helper.OkWithMessage(c, "Succes Get Photo", photo)
 }
 
+// GetPhoto Get all photo info
+// @Summary Get all photo
+// @Description Get all photo
+// @Tags Photo
+// @Accept json
+// @Produce json
+// @Security ApiKeyAuth
+// @Param Authorization header string true "Authorization header in the format of 'Bearer {token}'"
+// @Success 200 {object} helper.SuccessResponse
+// @Failure 400 {object} helper.ErrorResponse
+// @Failure 401 {object} helper.ErrorResponse
+// @Failure 500 {object} helper.ErrorResponse
+// @Router /photo [get]
 func GetAllPhoto(c *gin.Context) {
 	db := database.GetDB()
 	photo := []model.Photo{}
@@ -118,9 +176,23 @@ func GetAllPhoto(c *gin.Context) {
 
 		return
 	}
-	c.JSON(http.StatusOK, photo)
+	// c.JSON(http.StatusOK, photo)
+	helper.OkWithMessage(c, "Success Get All photo", photo)
 }
 
+// DeletePhoto godoc
+// @Summary Delete a photo by ID
+// @Description Delete a photo by ID
+// @Tags Photo
+// @Accept json
+// @Produce json
+// @Security ApiKeyAuth
+// @Param Authorization header string true "Authorization header in the format of 'Bearer {token}'"
+// @Param photoId path int true "Photo ID"
+// @Success 204 "No Content"
+// @Failure 400 {object} helper.ErrorResponse
+// @Failure 401 {object} helper.ErrorResponse
+// @Router /photo/{photoId} [delete]
 func DeleteProduct(c *gin.Context) {
 	db := database.GetDB()
 	userData := c.MustGet("userData").(jwt.MapClaims)
